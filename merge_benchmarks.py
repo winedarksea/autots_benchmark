@@ -30,8 +30,10 @@ results['reg_mod'] = np.where(results['reg_mod'].isna(), results['Model'], resul
 results.drop(columns=['ModelParameters'], inplace=True)
 
 df_cleaned = results.dropna(how='any')
+df_cleaned.drop(columns=["ID", "reg_mod", "Model"]).sum()
 agg = df_cleaned.groupby("Model").sum().drop(columns=["ID", "reg_mod"])
 agg_full = df_cleaned.groupby("reg_mod").sum().drop(columns=["ID", "Model"])
 agg_full.idxmin(axis=1)
 
-
+agg.to_csv("results.csv")
+agg_full.to_csv("results_full.csv")
